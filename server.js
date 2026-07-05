@@ -27,7 +27,8 @@ app.post("/advice", async function(req, res) {
     const data = await response.json();
     console.log("Gemini response received");
     const advice = data.candidates[0].content.parts[0].text;
-    res.json({ advice });
+const cleanAdvice = advice.replace(/\*\*/g, "").replace(/\*/g, "").replace(/#/g, "").trim();
+res.json({ advice: cleanAdvice });
 
   } catch (error) {
     console.log("Error:", error);
