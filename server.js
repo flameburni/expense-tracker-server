@@ -28,6 +28,11 @@ app.post("/advice", async function(req, res) {
 
     const data = await response.json();
     console.log("Gemini response received");
+
+    if (!data.candidates || data.candidates.length === 0) {
+  console.log("No candidates in response:", JSON.stringify(data));
+  return res.status(500).json({ error: "No response from AI" });
+}
     const advice = data.candidates[0].content.parts[0].text;
 const cleanAdvice = advice.replace(/\*\*/g, "").replace(/\*/g, "").replace(/#/g, "").trim();
 res.json({ advice: cleanAdvice });
